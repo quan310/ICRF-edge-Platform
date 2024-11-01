@@ -1,0 +1,81 @@
+function [gcoord,nodes3,nodes4,antnna1,antnna2]=mshload(name)
+if(exist(name,'file'))
+    f1=fopen(name);
+else
+    error("文件%s不存在",name)
+end
+i1=0;
+i3=0;
+i4=0;
+while(1)
+    c=fgetl(f1);
+    if(c==-1)
+        break
+    elseif(strcmp(c,''))
+        continue
+    elseif(strcmp(c,'$Nodes'))
+        c=fgetl(f1);
+        c=str2num(c);
+        nnode=c(4);
+        gcoord=zeros(nnode,3);
+        
+        while(1)
+            c=fgetl(f1);
+            if(strcmp(c,'$EndNodes'))
+                break
+            end
+            c=str2num(c);
+            n=c(4);
+            for k=1:n
+                c=fgetl(f1);
+            end
+            for k=1:n
+                i1=i1+1;
+                c=str2num(fgetl(f1));
+                gcoord(i1,:)=c(:);
+            end
+        end
+    elseif(strcmp(c,'$Elements'))
+        while(1)
+            c=fgetl(f1);
+            if(strcmp(c,'$EndElements'))
+                break
+            end
+            c=str2num(c);
+            if(length(c)==4&&c(1)==2)
+                n=c(4);
+                if(c(2)==10)
+                    ant1=1;
+                    antnna1=zeros(n,1);
+                else
+                    ant1=0;
+                end
+                if(c(2)==11)
+                    ant2=1;
+                    antnna2=zeros(n,1);
+                else
+                    ant2=0;
+                end
+                for k=1:n
+                    c=str2num(fgetl(f1));
+                    if(length(c)==4)
+                        i3=i3+1;
+                        nodes3(:,i3)=c(2:4);
+                        if(ant1)
+                            antnna1(k)=i3;
+                        elseif(ant2)
+                            antnna2(k)=i3;
+                        end
+                    elseif(length(c)==5)
+                        i4=i4+1;
+                        nodes4(:,i4)=c(2:5);
+                    end
+                end
+            end
+        end
+    elseif(i1~=0&&(i3~=0||i4~=0))
+        break
+    end
+end
+fclose(f1);
+end
