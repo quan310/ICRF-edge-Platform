@@ -1,5 +1,0 @@
-#!bin/sh
-mpiifort -mcmodel=medium -c Field.f90
-mpiifort -mcmodel=medium -c Sputtering.f90
-
-mpiifort -o a.out Field.o Sputtering.o 
