@@ -1,0 +1,5 @@
+#!bin/sh
+mpiifort -mcmodel=medium -c Field.f90
+mpiifort -mcmodel=medium -c jianshechenji.f90
+
+mpiifort -o a.out Field.o jianshechenji.o 

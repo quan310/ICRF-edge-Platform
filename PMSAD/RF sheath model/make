@@ -1,0 +1,20 @@
+#!bin/sh
+mpiifort -mkl -c Constant.F90
+mpiifort -mkl -c Particle.F90
+mpiifort -mkl -c Input.F90
+mpiifort -mkl -c Parallel.F90
+mpiifort -mkl -c Gas.F90
+mpiifort -mkl -c Weighting.F90
+mpiifort -mkl -c Maxwell.F90
+mpiifort -mkl -c FileIO.F90
+mpiifort -mkl -c Boundary.F90
+mpiifort -mkl -c HGas.F90
+mpiifort -mkl -c Move.F90
+mpiifort -mkl -c Field.F90
+mpiifort -mkl -c Initilalization.F90
+mpiifort -mkl -c Diagnostics.F90
+mpiifort -mkl -c OneStep.F90
+mpiifort -mkl -c Main.F90
+
+mpiifort -mkl -o a.out Constant.o Particle.o FileIO.o Input.o Weighting.o Gas.o Move.o Parallel.o Diagnostics.o Boundary.o Maxwell.o HGas.o Field.o Initilalization.o OneStep.o Main.o
+rm Constant.o Particle.o FileIO.o Input.o Weighting.o Gas.o Move.o Parallel.o Diagnostics.o Boundary.o Maxwell.o HGas.o Field.o Initilalization.o OneStep.o Main.o
